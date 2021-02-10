@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - '80:8000'
+    depends_on:
+      - db
+    networks: 
+      - net_django
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'db_django'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    restart: always
+    networks: 
+      - net_django
+
+networks: 
+  net_django:
